@@ -108,7 +108,9 @@ func openStore() (*store, error) {
 			break
 		}
 	}
-	if home, err := os.UserHomeDir(); err == nil {
+	if home, err := os.UserHomeDir(); err != nil {
+		fmt.Fprintf(os.Stderr, "warning: resolve home directory: %v\n", err)
+	} else {
 		paths = append(paths, filepath.Join(home, ".agents", "skills"))
 	}
 	skills := &store{}
