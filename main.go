@@ -85,15 +85,32 @@ func main() {
 	}
 }
 
+func pathExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}
+
 func openStore() (*store, error) {
-	if rootPath := os.Getenv("SKILLX_ROOT"); rootPath != "" {
-		root, err := os.OpenRoot(rootPath)
-		if err != nil {
-			return nil, err
+	if root := os.Getenv("BOT_ROOT"); root != "" {
+		if skillsDir := filepath.Join(root, "skills"); pathExists(skillsDir) {
+			open, err := os.OpenRoot(skillsDir)
+			if err != nil {
+				return nil, err
+			}
+			return &store{roots: []*os.Root{open}}, nil
 		}
-		return &store{roots: []*os.Root{root}}, nil
 	}
-	paths := []string{filepath.Join(".agents", "skills")}
+	// The Botdir standard name is `skills/`; fall back to the legacy
+	// `.agents/skills` name only when `skills/` is absent, so existing
+	// projects keep working.
+	projectPaths := []string{filepath.Join("skills"), filepath.Join(".agents", "skills")}
+	var paths []string
+	for _, path := range projectPaths {
+		if pathExists(path) {
+			paths = append(paths, path)
+			break
+		}
+	}
 	if home, err := os.UserHomeDir(); err == nil {
 		paths = append(paths, filepath.Join(home, ".agents", "skills"))
 	}

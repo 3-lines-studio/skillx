@@ -17,7 +17,7 @@ skills
 skill
 ```
 
-Skillx merges `./.agents/skills` and `$HOME/.agents/skills`. Project skills take precedence when both roots contain the same name. Missing default roots are ignored. Set `SKILLX_ROOT` to replace both defaults with one explicit root. Skillx uses a separate Go `os.Root` for each root and strict skill names to confine reads.
+Skillx reads `$BOT_ROOT/skills` when running inside a bot; otherwise it merges the current directory's `./skills/` (falling back to the legacy `./.agents/skills` when `skills/` is absent) and `$HOME/.agents/skills`. Project skills take precedence when both roots contain the same name. Missing default roots are ignored. Skillx uses a separate Go `os.Root` for each root and strict skill names to confine reads.
 
 Run the local coding stack:
 

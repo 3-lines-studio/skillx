@@ -90,7 +90,7 @@ func TestDefaultRootsAndProjectPrecedence(t *testing.T) {
 	home := t.TempDir()
 	t.Chdir(project)
 	t.Setenv("HOME", home)
-	t.Setenv("SKILLX_ROOT", "")
+	t.Setenv("BOT_ROOT", "")
 	writeSkill(t, filepath.Join(project, ".agents", "skills"), "shared", "Project skill")
 	writeSkill(t, filepath.Join(home, ".agents", "skills"), "shared", "Home skill")
 	writeSkill(t, filepath.Join(home, ".agents", "skills"), "home-only", "Home only")
@@ -118,7 +118,7 @@ func TestDefaultRootsAndProjectPrecedence(t *testing.T) {
 func TestMissingDefaultRootsAreEmpty(t *testing.T) {
 	t.Chdir(t.TempDir())
 	t.Setenv("HOME", t.TempDir())
-	t.Setenv("SKILLX_ROOT", "")
+	t.Setenv("BOT_ROOT", "")
 	skills, err := openStore()
 	if err != nil {
 		t.Fatal(err)
