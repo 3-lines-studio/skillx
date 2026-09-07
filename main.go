@@ -100,9 +100,6 @@ func openStore() (*store, error) {
 			return &store{roots: []*os.Root{open}}, nil
 		}
 	}
-	// The Botdir standard name is `skills/`; fall back to the legacy
-	// `.agents/skills` name only when `skills/` is absent, so existing
-	// projects keep working.
 	projectPaths := []string{filepath.Join("skills"), filepath.Join(".agents", "skills")}
 	var paths []string
 	for _, path := range projectPaths {
