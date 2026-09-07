@@ -16,7 +16,7 @@ func testStore(t *testing.T) (*store, string) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { root.Close() })
+	t.Cleanup(func() { _ = root.Close() })
 	return &store{roots: []*os.Root{root}}, rootPath
 }
 

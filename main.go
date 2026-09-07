@@ -140,7 +140,7 @@ func openStore() (*store, error) {
 
 func (skills *store) close() {
 	for _, root := range skills.roots {
-		root.Close()
+		_ = root.Close()
 	}
 }
 
@@ -164,7 +164,7 @@ func (skills *store) list() (string, error) {
 			return "", err
 		}
 		entries, err := root.ReadDir(-1)
-		root.Close()
+		_ = root.Close()
 		if err != nil {
 			return "", err
 		}
